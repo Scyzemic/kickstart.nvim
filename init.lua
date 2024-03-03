@@ -133,6 +133,11 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- set tab width
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
 -- Sets how neovim will display certain whitespace in the editor.
 --  See :help 'list'
 --  and :help 'listchars'
@@ -560,6 +565,7 @@ require('lazy').setup {
                 -- for your neovim configuration.
                 library = {
                   '${3rd}/luv/library',
+                  '~/lua-libraries/love2d/library',
                   unpack(vim.api.nvim_get_runtime_file('', true)),
                 },
                 -- If lua_ls is really slow on your computer, you can try this instead:
