@@ -242,6 +242,9 @@ require('lazy').setup {
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
+  -- Add indentation guides even on blank lines
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
+
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
   --    require('gitsigns').setup({ ... })
@@ -356,7 +359,7 @@ require('lazy').setup {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = { find_files = { hidden = true } },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -403,6 +406,11 @@ require('lazy').setup {
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Shortcut for searching my notes
+      vim.keymap.set('n', '<leader>sos', function()
+        builtin.find_files { cwd = '~/scratch' }
+      end, { desc = '[S]earch and [O]pen [N]otes' })
     end,
   },
 
@@ -549,7 +557,7 @@ require('lazy').setup {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -591,6 +599,8 @@ require('lazy').setup {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'jsonls', -- Used to provide LSP features for JSON
+        'eslint', -- Used to provide LSP features for JavaScript
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -628,7 +638,7 @@ require('lazy').setup {
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
+        javascript = { { 'prettierd', 'prettier' }, { 'eslintd', 'eslint' } },
       },
     },
   },
