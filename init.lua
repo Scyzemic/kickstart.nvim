@@ -558,8 +558,9 @@ require('lazy').setup {
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
-        --
-
+        tailwindcss = {},
+        eslint = {},
+        biome = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
@@ -601,6 +602,7 @@ require('lazy').setup {
         'stylua', -- Used to format lua code
         'jsonls', -- Used to provide LSP features for JSON
         'eslint', -- Used to provide LSP features for JavaScript
+        'biome',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -638,7 +640,7 @@ require('lazy').setup {
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' }, { 'eslintd', 'eslint' } },
+        javascript = { 'biome', { 'prettierd', 'prettier' }, { 'eslintd', 'eslint' } },
       },
     },
   },
@@ -736,26 +738,46 @@ require('lazy').setup {
     end,
   },
 
-  { 'github/copilot.vim' },
+  -- { 'github/copilot.vim' },
 
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is
+    -- Install without configuration
+    -- 'projekt0n/github-nvim-theme',
+    -- 'folke/tokyonight.nvim',
     --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-    'folke/tokyonight.nvim',
+    -- Or with configuration
+    -- {
+    'projekt0n/github-nvim-theme',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      require('tokyonight').setup {
-        transparent = true,
+      require('github-theme').setup {
+        -- ...
+        options = {
+          transparent = true,
+        },
       }
-      -- Load the colorscheme here
-      vim.cmd.colorscheme 'tokyonight-night'
 
-      -- You can configure highlights by doing something like
-      vim.cmd.hi 'Comment gui=none'
+      vim.cmd.colorscheme 'github_dark_default'
     end,
+    -- },
+    --
+    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
+    -- 'folke/tokyonight.nvim',
+    -- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    -- priority = 1000, -- make sure to load this before all the other start plugins
+    -- config = function()
+    --   require('tokyonight').setup {
+    --     -- transparent = true,
+    --   }
+    --   -- Load the colorscheme here
+    --   vim.cmd.colorscheme 'tokyonight-night'
+    --
+    --   -- You can configure highlights by doing something like
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
 
   -- Highlight todo, notes, etc in comments
